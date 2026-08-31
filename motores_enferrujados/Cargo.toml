@@ -1,0 +1,19 @@
+[package]
+name = "motores_enferrujados"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"
+
+[dependencies]
+wasm-bindgen = "0.2.127"
+web-sys = { version = "0.3.104", features = ["console","KeyboardEvent","NodeList","HtmlSelectElement", "HtmlFormElement", "HtmlInputElement", "Event", "SubmitEvent", "Window","Location", "Document", "Element"] }
+reqwest = { version = "0.12", features = ["json"] }
+serde = { version = "1.0.229", features = ["derive"] }
+futures = { version = "0.3.34", features = ["executor"] }
+tower-http = { version = "0.7.0", features = ["cors"] }
+wasm-bindgen-futures = "0.4.77"
+
+

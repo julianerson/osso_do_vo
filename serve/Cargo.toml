@@ -1,0 +1,15 @@
+[package]
+name = "serve"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+calamine = "0.36.1"
+crossterm = "0.29.0"
+hex = "0.4.3"
+rand = "0.10.2"
+rust_xlsxwriter = "0.99.0"
+axum = "0.8.9"
+serde = { version = "1.0.229", features = ["derive"] }
+tokio = { version = "1.53.1", features = ["full"] }
+tower-http = { version = "0.7.0", features = ["cors"] }

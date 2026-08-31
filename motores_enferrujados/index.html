@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="favicon.ico?v=1">
+
+    <title>Rust + WebAssembly</title>
+</head>
+<body>
+    <h1 id="idv">vamos aos joguins</h1>
+    <form id="meu-formulario">
+        <label class="perguntas" for="nome">Nome:</label>
+        <input class="perguntas" type="text" id="nome" required><br>
+        <label class="perguntas" for="dif">escolha a dificuldade</label>
+        <select class="perguntas" name="ui" id="dificuldade">
+            <option value="FACIL">facil</option>
+            <option value="MEDIO">medio</option>
+            <option value="DIFICIL">dificil</option>
+        </select><br>
+        <button type="submit">Enviar</button>
+    </form>
+
+
+    <!-- É obrigatório usar type="module" para poder usar o 'import' -->
+    <script type="module">
+        // 1. Importa a função de inicialização (init) e a sua função do Rust (test)
+        import init, { test } from './pkg/motores_enferrujados.js';
+
+        async function rodarWasm() {
+            // 2. Inicializa o arquivo WebAssembly por baixo dos panos
+            await init();
+
+            // 3. Chama a sua função Rust que executa o console.log_1
+            test();
+        }
+
+        rodarWasm();
+    </script>
+</body>
+</html>
