@@ -18,7 +18,7 @@
             <option value="MEDIO">medio</option>
             <option value="DIFICIL">dificil</option>
         </select><br>
-        <button type="submit">Enviar</button>
+        <button type="button", onclick="testarDoRust()">Enviar</button>
     </form>
 
 
@@ -32,10 +32,15 @@
             await init();
 
             // 3. Chama a sua função Rust que executa o console.log_1
-            test();
+            
         }
 
         rodarWasm();
+        // Dentro do modulo:
+        window.testarDoRust = function() {
+            test(); // chama test como uma função js normal
+        }
+
     </script>
 </body>
 </html>

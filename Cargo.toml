@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "serve",
+    "motores_enferrujados",
+]
+resolver = "3" 
