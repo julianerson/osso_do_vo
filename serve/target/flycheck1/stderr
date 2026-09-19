@@ -1,8 +1,0 @@
-error: failed to load manifest for workspace member `/home/trybulet/Área de trabalho/experimentos/osso_do_vo/projeto1`
-referenced by workspace at `/home/trybulet/Área de trabalho/experimentos/osso_do_vo/Cargo.toml`
-
-Caused by:
-  failed to read `/home/trybulet/Área de trabalho/experimentos/osso_do_vo/projeto1/Cargo.toml`
-
-Caused by:
-  No such file or directory (os error 2)

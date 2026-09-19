@@ -1,5 +1,0 @@
-/home/trybulet/Área de trabalho/experimentos/osso_do_vo/serve/target/debug/build/serde_json-e8bad665682f3bb4/build_script_build-e8bad665682f3bb4.d: /home/trybulet/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.151/build.rs
-
-/home/trybulet/Área de trabalho/experimentos/osso_do_vo/serve/target/debug/build/serde_json-e8bad665682f3bb4/build_script_build-e8bad665682f3bb4: /home/trybulet/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.151/build.rs
-
-/home/trybulet/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.151/build.rs:
