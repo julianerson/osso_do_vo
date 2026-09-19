@@ -2,5 +2,6 @@
 members = [
     "serve",
     "motores_enferrujados",
+    "musa_para_server",
 ]
 resolver = "3" 

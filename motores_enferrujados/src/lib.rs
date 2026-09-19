@@ -7,6 +7,9 @@ use reqwest::Client;
 use serde::{Deserialize, Serialize}; // Adicionado o Serialize para responder em JSON
 use std::rc::Rc;
 use std::cell::RefCell;
+use std::sync::{Mutex, OnceLock};
+
+static NOME: OnceLock<Mutex<String>> = OnceLock::new();
 
 #[wasm_bindgen]
 pub async fn test() {
@@ -27,6 +30,13 @@ pub async fn test() {
             input_html.set_value("");
         }
     }
+    let mutex = NOME.get_or_init(|| Mutex::new(String::new()));
+    
+    // 2. Bloqueia o Mutex para garantir acesso exclusivo
+    let mut nome_guardado = mutex.lock().unwrap();
+    
+    // 3. Modifica o valor interno (use o * na frente)
+    *nome_guardado = nome_capturado.clone(); 
     let dificuldade = document.get_element_by_id("dificuldade").unwrap().dyn_into::<HtmlSelectElement>().expect("oi").value();
     match envio(nome_capturado, dificuldade, hostname).await {
         Ok(texto_resposta) => {
