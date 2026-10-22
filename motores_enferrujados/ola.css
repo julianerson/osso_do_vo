@@ -1,4 +1,176 @@
-* {margin: 0; padding: 0; box-sizing: border-box;}
-body{
-    background-color: aquamarine;
+/* ola.css — Windows XP, versão minimalista */
+
+:root {
+    --azul-titulo-1: #2a6fe0;
+    --azul-titulo-2: #0a4fc4;
+    --azul-borda: #0a3fa8;
+    --azul-foco: #2b6fd9;
+    --janela: #f6f5ee;
+    --texto: #1c1f26;
+    --texto-suave: #5b6270;
+    --campo-borda: #a7b4c8;
+    --verde: #3f9a3a;
+    --fonte: Tahoma, "Segoe UI", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { min-height: 100%; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 12vh 20px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: var(--fonte);
+    font-size: 14px;
+    color: var(--texto);
+    background:
+        radial-gradient(ellipse 130% 38% at 25% 108%, #6fb23a 0%, #58a02c 60%, transparent 61%),
+        linear-gradient(to bottom, #3f86e8 0%, #8dc0f5 55%, #dcedfb 100%);
+    background-attachment: fixed;
+}
+
+/* Título */
+h1 {
+    margin: 0 0 28px;
+    font-family: "Trebuchet MS", var(--fonte);
+    font-size: 1.75rem;
+    font-weight: normal;
+    font-style: italic;
+    letter-spacing: 0.01em;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 1px 8px rgba(10, 50, 140, 0.45);
+}
+
+br { display: none; }
+
+/* Janela */
+form {
+    position: relative;
+    width: 100%;
+    max-width: 340px;
+    padding: 46px 24px 24px;
+    background: var(--janela);
+    border: 1px solid var(--azul-borda);
+    border-radius: 10px 10px 4px 4px;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.6) inset,
+        0 18px 40px -12px rgba(8, 30, 90, 0.5);
+}
+
+/* Barra de título */
+form::before {
+    content: "runbly";
+    position: absolute;
+    inset: -1px -1px auto -1px;
+    height: 32px;
+    padding: 0 44px 0 14px;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(to bottom, var(--azul-titulo-1), var(--azul-titulo-2));
+    border: 1px solid var(--azul-borda);
+    border-radius: 10px 10px 0 0;
+}
+
+/* Fechar (decorativo) */
+form::after {
+    content: "\00d7";
+    position: absolute;
+    top: 5px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    font-size: 17px;
+    line-height: 1;
+    color: #fff;
+    background: linear-gradient(to bottom, #e8795a, #c9401f);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+/* Campos */
+label.perguntas {
+    display: block;
+    margin: 0 0 6px;
+    font-size: 13px;
+    color: var(--texto-suave);
+}
+
+input.perguntas,
+select.perguntas {
+    display: block;
+    width: 100%;
+    margin-bottom: 18px;
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--texto);
+    background: #fff;
+    border: 1px solid var(--campo-borda);
+    border-radius: 3px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+select.perguntas { cursor: pointer; }
+
+input.perguntas:hover,
+select.perguntas:hover { border-color: #7f93b3; }
+
+input.perguntas:focus,
+select.perguntas:focus {
+    outline: none;
+    border-color: var(--azul-foco);
+    box-shadow: 0 0 0 3px rgba(43, 111, 217, 0.2);
+}
+
+/* Botão */
+button {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    padding: 9px 16px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to bottom, #58b552, var(--verde) 55%, #348a30);
+    border: 1px solid #2b7427;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    transition: filter 0.15s, transform 0.05s;
+}
+
+button:hover { filter: brightness(1.07); }
+
+button:active {
+    filter: brightness(0.94);
+    transform: translateY(1px);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(43, 111, 217, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+}
+
+@media (max-width: 420px) {
+    body { padding-top: 8vh; }
+    h1 { font-size: 1.4rem; }
 }

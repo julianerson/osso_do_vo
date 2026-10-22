@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="favicon.ico?v=1">
     <link rel="stylesheet" href="ola.css">
-    <title>Rust + WebAssembly</title>
+    <title>runbly</title>
 </head>
 <body>
-    <h1 id="idv">vamos aos joguins</h1>
+    <h1 id="idv">vamos aos joguins</h1><br><br>
     <form id="meu-formulario">
         <label class="perguntas" for="nome">Nome:</label>
         <input class="perguntas" type="text" id="nome" required><br>
-        <label class="perguntas" for="dif">escolha a dificuldade</label>
+        <label class="perguntas" for="dif">escolha a dificuldade</label><br>
         <select class="perguntas" name="ui" id="dificuldade">
             <option value="FACIL">facil</option>
             <option value="MEDIO">medio</option>
@@ -39,7 +39,18 @@
         // Dentro do modulo:
         window.testarDoRust = function() {
             test(); // chama test como uma função js normal
-        }
+            const form = document.getElementById('meu-formulario');
+            if (!form.reportValidity()) return; // respeita o "required"
+
+            const dados = new URLSearchParams(new FormData(form));
+            const resp = await fetch('/jogo', { method: 'POST', body: dados });
+            const html = await resp.text();
+
+            history.pushState({}, '', '/bem-vindo'); // muda o endereço
+            document.open();
+            document.write(html); // troca a página inteira, incluindo o <head>
+            document.close();
+                }
 
     </script>
 </body>
