@@ -1,12 +1,8 @@
-
-use wasm_bindgen::prelude::*;//importa tudo na prelude que e usado no codigo
-use wasm_bindgen::JsCast;//importa as funçoes responsaveis por transoformar os elements
-use wasm_bindgen_futures::spawn_local;
-use web_sys::{HtmlFormElement, HtmlInputElement,HtmlSelectElement, SubmitEvent,console};//pega as apis do navegados
+use wasm_bindgen::prelude::*;
+use wasm_bindgen::JsCast;
+use web_sys::{console, HtmlInputElement, HtmlSelectElement};
 use reqwest::Client;
-use serde::{Deserialize, Serialize}; // Adicionado o Serialize para responder em JSON
-use std::rc::Rc;
-use std::cell::RefCell;
+use serde::{Deserialize, Serialize};
 use std::sync::{Mutex, OnceLock};
 
 static NOME: OnceLock<Mutex<String>> = OnceLock::new();
@@ -15,77 +11,88 @@ static NOME: OnceLock<Mutex<String>> = OnceLock::new();
 pub async fn test() {
     let window = web_sys::window().expect("Sem janela");
     let document = window.document().expect("Sem documento");
-
-    // Estado compartilhado, criado uma única vez
-    let respondido: Rc<RefCell<Resposta>> = Rc::new(RefCell::new(Resposta {
-        mensagem: "".to_string(),
-        status: "".to_string(),
-        numerr: 0,
-    }));
-    let mut nome_capturado =String::new();
     let hostname = window.location().hostname().unwrap();
+
+    // Lê o nome e limpa o campo
+    let mut nome_capturado = String::new();
     if let Some(input) = document.get_element_by_id("nome") {
         if let Ok(input_html) = input.dyn_into::<HtmlInputElement>() {
             nome_capturado = input_html.value();
             input_html.set_value("");
         }
     }
-    let mutex = NOME.get_or_init(|| Mutex::new(String::new()));
-    
-    // 2. Bloqueia o Mutex para garantir acesso exclusivo
-    let mut nome_guardado = mutex.lock().unwrap();
-    
-    // 3. Modifica o valor interno (use o * na frente)
-    *nome_guardado = nome_capturado.clone(); 
-    let dificuldade = document.get_element_by_id("dificuldade").unwrap().dyn_into::<HtmlSelectElement>().expect("oi").value();
+
+    // O bloco {} solta o lock antes do .await
+    {
+        let mutex = NOME.get_or_init(|| Mutex::new(String::new()));
+        *mutex.lock().unwrap() = nome_capturado.clone();
+    }
+
+    let dificuldade = document
+        .get_element_by_id("dificuldade")
+        .unwrap()
+        .dyn_into::<HtmlSelectElement>()
+        .expect("dificuldade não é um <select>")
+        .value();
+
     match envio(nome_capturado, dificuldade, hostname).await {
-        Ok(texto_resposta) => {
-            console::log_1(&JsValue::from_str(&format!("Resposta do Servidor: {}", texto_resposta.status)));
-            *respondido.borrow_mut() = texto_resposta; // grava na caixinha compartilhada
+        Ok(resposta) => {
+            console::log_1(&JsValue::from_str(&format!("Status: {}", resposta.status)));
+
+            if resposta.status == "sucesso" {
+                // O HTML já veio pronto no campo "mensagem"
+                document
+                    .document_element()
+                    .expect("sem <html>")
+                    .set_inner_html(&resposta.mensagem);
+            }
         }
         Err(erro) => {
             console::log_1(&JsValue::from_str(&format!("Erro ao conectar: {:?}", erro)));
         }
     }
-
 }
+
 #[derive(Serialize, Deserialize)]
 pub struct Resposta {
     mensagem: String,
     status: String,
-    numerr:u128
+    numerr: u128,
+    atim: i128,
 }
+
 #[derive(Serialize, Deserialize)]
 pub struct Usuario {
-    numero:u128,
-    requis:u32,
-    querer:String,
+    numero: u128,
+    requis: u32,
+    querer: String,
     nome: String,
     difi: String,
-    planilha:bool,
+    planilha: bool,
 }
 
-
-pub async fn envio(nome:String,dificuldade: String,hostname:String) -> Result<Resposta, reqwest::Error> {
+pub async fn envio(
+    nome: String,
+    dificuldade: String,
+    hostname: String,
+) -> Result<Resposta, reqwest::Error> {
     let cliente = Client::builder().build()?;
 
-    // 2. Cria os dados que serão enviados
     let novo_usuario = Usuario {
-        numero:0,
-        requis:0,
-        querer:"jogo".to_string(),
-        nome: nome,
+        numero: 0,
+        requis: 0,
+        querer: "jogo".to_string(),
+        nome,
         difi: dificuldade,
-        planilha:false,
+        planilha: false,
     };
 
-    // 3. Faz o POST enviando o objeto como JSON (.json())
-    let resposta = cliente.post(format!("http://{}:3000", hostname))
+    let resposta = cliente
+        .post(format!("http://{}:3000", hostname))
         .json(&novo_usuario)
         .send()
         .await?;
 
-    // 4. Exibe o status e o texto de resposta da API
     let texto = resposta.json::<Resposta>().await?;
 
     Ok(texto)

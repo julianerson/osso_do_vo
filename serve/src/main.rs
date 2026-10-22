@@ -64,7 +64,19 @@ async fn criar_usuario(Json(payload): Json<Usuario>) -> Json<Resposta> {
     let stai:String;
     let lerygo:i128;
     if payload.querer == "jogo"{
-        mes = format!("Usuário {} lido com sucesso no Axum!", payload.nome);
+        mes = format!(
+    r#"<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ola.css">
+    <title>runbly</title>
+</head>
+<body>
+    <h1>{}</h1>
+</body>
+</html>"#,&payload.nome);
         print!("{}",&mes);
         stai = "sucesso".to_string();
         nom = match payload.difi.as_str() {
