@@ -65,6 +65,7 @@ async fn criar_usuario(Json(payload): Json<Usuario>) -> Json<Resposta> {
     let lerygo:i128;
     if payload.querer == "jogo"{
         mes = format!("Usuário {} lido com sucesso no Axum!", payload.nome);
+        print!("{}",&mes);
         stai = "sucesso".to_string();
         nom = match payload.difi.as_str() {
             "FACIL" => 20,
@@ -72,6 +73,7 @@ async fn criar_usuario(Json(payload): Json<Usuario>) -> Json<Resposta> {
             "DIFICIL"=>10,
             _=>100,
         };
+        println!("\n sua dificuldade e {}",nom);
         lerygo = rand::random_range(1..=1000);
     }else if payload.querer == "jogando"{
         mes = format!("Usuário {} lido com sucesso no Axum!", payload.nome);
