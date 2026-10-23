@@ -106,7 +106,12 @@ label.perguntas {
     font-size: 13px;
     color: var(--texto-suave);
 }
-
+#piss{
+    display: block;
+    margin: 0 0 6px;
+    font-size: 15px;
+    color: var(--texto-suave);
+}
 input.perguntas,
 select.perguntas {
     display: block;
