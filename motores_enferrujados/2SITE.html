@@ -1,12 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="ola.css">
+    <title>runbly</title>
 </head>
 <body>
-    <h1></h1>
-    
+    <h1 id="titulo">olaaa @@NOME@@</h1>
+    <form id="meu-formulario">
+        <label class="perguntas" for="resposta">qual o seu palpite?</label>
+        <input class="perguntas" type="number" id="resposta" min="0" step="1" required>
+        <button type="button" onclick="enviarUsuario()">Enviar</button>
+    </form>
+    <script>
+        async function enviarUsuario() {
+            const usuario = {
+                numero: Number(document.getElementById("resposta").value),
+                requis: 0,
+                querer: "jogando",
+                nome: "",
+                difi: "",
+                fim: 0,
+            };
+            try {
+                const resp = await fetch(`http://${location.hostname}:3000`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(usuario),
+                });
+                const dados = await resp.json();
+                if (dados.status === "sucesso") {
+                    document.open();
+                    document.write(dados.mensagem);
+                    document.close();
+                }
+            } catch (erro) {
+                console.error("Erro ao conectar:", erro);
+            }
+        }
+    </script>
 </body>
 </html>

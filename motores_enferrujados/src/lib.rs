@@ -68,7 +68,7 @@ pub struct Usuario {
     querer: String,
     nome: String,
     difi: String,
-    planilha: bool,
+    planilha: u128,
 }
 
 pub async fn envio(
@@ -84,7 +84,7 @@ pub async fn envio(
         querer: "jogo".to_string(),
         nome,
         difi: dificuldade,
-        planilha: false,
+        planilha: 0,
     };
 
     let resposta = cliente
