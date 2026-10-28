@@ -8,7 +8,19 @@ fn main(){
     let mut pontos = [0,0,0];//aqui sao contados pontos de um jogo, mas pode ser itens em uma compra
     println!("diga seu nome");
     let mut voce = String::new();
-    io::stdin().read_line(&mut voce).expect("sla");//le o que vc escreveu
+    match io::stdin()/*clama a função de ler linha*/.read_line(&mut voce)/*comando para ler, e chama a referencia mutavel*/ {
+        Ok(_bytes_lidos) => {
+            // Se o usuário só apertou enter sem digitar nada, aplicamos o valor padrão
+            if voce.trim().is_empty() {
+                voce = "indijente".to_string();
+            }
+        }
+        // Cenário de Erro (Err): Funciona exatamente como o seu CATCH
+        Err(erro) => {
+            println!("Ocorreu um erro físico de leitura: {}", erro);
+            voce = "indijente".to_string();
+        }
+    }
     funcoes::limpar();
     let entrada = funcoes::opções(&["qual vc quer?", "dificil","media","facil"]);
     let dificul: i32 = match entrada {//atribui uma dificuldade, mas e se colocarmos funcionarios?
